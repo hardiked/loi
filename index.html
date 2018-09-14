@@ -87,7 +87,7 @@
 					}
 				}
 				console.log(string);
-				div.innerHTML+= i + " path is "+string+'<br />';
+				div.innerHTML+= i+1 + " path is "+string+'<br />';
 				string="";	
 			}
 		    div.className = 'row';
@@ -99,10 +99,12 @@
 			var canvas=document.getElementById("canvas1");
 			var ctx=canvas.getContext("2d");
 			ctx.lineWidth=5;
+			var cost=0;
 			for(i=0;i<answer.length;i++){	
 				// console.log("i");
 				for(j=0;j<answer[i].length;j++){
 					if(j==0){
+						cost+=distance[0][answer[i][j]];
 						ctx.beginPath();
 						ctx.moveTo(0,0);
 						ctx.lineTo(0,answer[i][j]*50);
@@ -114,6 +116,7 @@
 						// }
 					}
 					else if(j!=answer.length-1){
+						cost+=distance[answer[i][j-1]][answer[i][j]];
 						ctx.lineTo(answer[i][j-1]*50,answer[i][j]*50);
 					}
 					// console.log(answer.length);
@@ -121,12 +124,15 @@
 						// console.log("lk");
 						if(answer[i].length==1){
 							// console.log("fd");
+							cost+=distance[answer[i][j]][0];
 							ctx.lineTo(0,0);
 							ctx.strokeStyle="red";
 							ctx.stroke();
 						}
 						else{
+							cost+=distance[answer[i][j-1]][answer[i][j]];
 							ctx.lineTo(answer[i][j-1]*50,answer[i][j]*50);
+							cost+=distance[answer[i][j]][0];
 							ctx.lineTo(0,0);
 							console.log(i);
 							if(i==0){
@@ -142,7 +148,9 @@
 						}
 					}
 				}
+				console.log(cost);
 			}
+			div.innerHTML+="Total cost is "+cost;	
 		}
 	</script>
 	<title>LOI project</title>
