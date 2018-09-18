@@ -1,10 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
+<!-- 	<style>
+body {
+    background-color: linen;
+}
+
+h1 {
+    color: maroon;
+    margin-left: 40px;
+}
+</style> -->
+	<link rel="stylesheet" type="text/css" href="style.css">
 	<script src="./index.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.2.0/anime.js"></script>
 	<script type="application/javascript" language="javascript">
 		window.onload=draw;
-		function draw(){
+		async function draw(){
 			var distance=[
 				[0,12,11,7,10,10,9,8,6,12],
 				[12,0,8,5,9,12,14,16,17,22],
@@ -41,6 +53,10 @@
 						final.push([f[i][j],i,j]);
 					}
 				}
+			}
+
+			function sleep(ms) {
+			  	return new Promise(resolve => setTimeout(resolve, ms));
 			}
 
 			function sortFunction(a, b) {
@@ -100,14 +116,51 @@
 			var ctx=canvas.getContext("2d");
 			ctx.lineWidth=5;
 			var cost=0;
+			var d;
+			d=document.createElement('div');
+			d.style.position = "absolute";
+			d.style.left = '250px';
+			d.style.top = '250px';
+			d.innerHTML="(0,0)";
+			document.getElementById('content').appendChild(d);
 			for(i=0;i<answer.length;i++){	
 				// console.log("i");
+				if(i!=0){
+					await sleep(1000);
+				}
 				for(j=0;j<answer[i].length;j++){
 					if(j==0){
 						cost+=distance[0][answer[i][j]];
 						ctx.beginPath();
 						ctx.moveTo(0,0);
 						ctx.lineTo(0,answer[i][j]*50);
+						if(i==0){
+							ctx.strokeStyle="red";
+							ctx.stroke();
+						}
+						if(i==1){
+							ctx.strokeStyle="green";
+							ctx.stroke();
+						}
+						if(i==2){
+							ctx.strokeStyle="yellow";
+							ctx.stroke();
+						}
+						d=document.createElement('div');
+						d.style.position = "absolute";
+						d.style.left = 250+'px';
+						d.style.top = 250+(answer[i][j]*50)+'px';
+						d.innerHTML="(0,"+answer[i][j]+")";
+						document.getElementById('content').appendChild(d);
+						// if(i==0){
+							var cssSelector = await anime({
+							  	targets: '.bg',
+							  	translateY:(answer[i][j]*50),
+							  	duration: 500,
+							  	easing: 'easeOutQuad'
+							});
+							await sleep(500);
+						// }
 						// if(answer[i].length==1){
 						// 	console.log("gd");
 						// 	ctx.lineTo(0,0);
@@ -115,9 +168,35 @@
 						// 	ctx.stroke();
 						// }
 					}
-					else if(j!=answer.length-1){
+					else if(j!=answer[i].length-1){
 						cost+=distance[answer[i][j-1]][answer[i][j]];
 						ctx.lineTo(answer[i][j-1]*50,answer[i][j]*50);
+						if(i==0){
+							ctx.strokeStyle="red";
+							ctx.stroke();
+						}
+						if(i==1){
+							ctx.strokeStyle="green";
+							ctx.stroke();
+						}
+						if(i==2){
+							ctx.strokeStyle="yellow";
+							ctx.stroke();
+						}
+						d=document.createElement('div');
+						d.style.position = "absolute";
+						d.style.left = 250+(answer[i][j-1]*50)+'px';
+						d.style.top = 250+(answer[i][j]*50)+'px';
+						d.innerHTML="("+answer[i][j-1]+","+answer[i][j]+")";
+						document.getElementById('content').appendChild(d);
+						var cssSelector = await anime({
+						  	targets: '.bg',
+						  	translateX:answer[i][j-1]*50,
+						  	translateY:answer[i][j]*50,
+						  	duration: 500,
+						  	easing: 'easeOutQuad'
+						});
+						await sleep(500);
 					}
 					// console.log(answer.length);
 					if(j==answer[i].length-1){
@@ -126,25 +205,88 @@
 							// console.log("fd");
 							cost+=distance[answer[i][j]][0];
 							ctx.lineTo(0,0);
-							ctx.strokeStyle="red";
-							ctx.stroke();
+							if(i==0){
+								ctx.strokeStyle="red";
+								ctx.stroke();
+							}
+							if(i==1){
+								ctx.strokeStyle="green";
+								ctx.stroke();
+							}
+							if(i==2){
+								ctx.strokeStyle="yellow";
+								ctx.stroke();
+							}
+							var cssSelector = await anime({
+							  	targets: '.bg',
+							  	translateY:-(answer[i][j]*50-150),
+							  	duration: 1000,
+							  	easing: 'easeOutQuad'
+							});
+							await sleep(500);
 						}
 						else{
 							cost+=distance[answer[i][j-1]][answer[i][j]];
 							ctx.lineTo(answer[i][j-1]*50,answer[i][j]*50);
-							cost+=distance[answer[i][j]][0];
-							ctx.lineTo(0,0);
-							console.log(i);
 							if(i==0){
 								ctx.strokeStyle="red";
+								ctx.stroke();
 							}
 							if(i==1){
 								ctx.strokeStyle="green";
+								ctx.stroke();
 							}
 							if(i==2){
 								ctx.strokeStyle="yellow";
+								ctx.stroke();
 							}
-							ctx.stroke();
+							d=document.createElement('div');
+							d.style.position = "absolute";
+							d.style.left = 250+(answer[i][j-1]*50)+'px';
+							d.style.top = 250+(answer[i][j]*50)+'px';
+							d.innerHTML="("+answer[i][j-1]+","+answer[i][j]+")";
+							document.getElementById('content').appendChild(d);
+							var cssSelector = await anime({
+							  	targets: '.bg',
+							  	translateY:answer[i][j]*50,
+							  	translateX:answer[i][j-1]*50,
+							  	duration: 1000,
+							  	easing: 'easeOutQuad'
+							});
+							await sleep(500);
+							cost+=distance[answer[i][j]][0];
+							ctx.lineTo(0,0);
+							if(i==0){
+								ctx.strokeStyle="red";
+								ctx.stroke();
+							}
+							if(i==1){
+								ctx.strokeStyle="green";
+								ctx.stroke();
+							}
+							if(i==2){
+								ctx.strokeStyle="yellow";
+								ctx.stroke();
+							}
+							var cssSelector = await anime({
+							  	targets: '.bg',
+							  	translateX:-(answer[i][j-1]*50),
+							  	translateY:-(answer[i][j]*50),
+							  	duration: 1000,
+							  	easing: 'easeOutQuad'
+							});
+							await sleep(500);
+							// console.log(i);
+							// if(i==0){
+							// 	ctx.strokeStyle="red";
+							// }
+							// if(i==1){
+							// 	ctx.strokeStyle="green";
+							// }
+							// if(i==2){
+							// 	ctx.strokeStyle="yellow";
+							// }
+							// ctx.stroke();
 						}
 					}
 				}
@@ -157,8 +299,11 @@
 </head>
 <body>
 	<h1 style="text-align: center;" id="content">Vehicle Routing Problem</h1>
-	<div class="bg" style="margin-left: 25%;margin-top: 5%;">
+	<div class="bg"></div>
+	<div style="margin-left: 250px;margin-top: 5%;">
 		<canvas id="canvas1" width="700" height="500"></canvas>
 	</div>
+
 </body>	
+
 </html>

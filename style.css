@@ -1,0 +1,29 @@
+.bg {
+    background-image: url('img.jpg');
+    opacity: 1s;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    margin-left: 250px;
+    background-repeat: no-repeat;
+    /*-webkit-animation: myfirst 5s 1; */
+    /*-webkit-animation-direction: reverse;*/
+    /*animation: myfirst 1s 1;*/
+    /*animation-direction: reverse;*/
+    background-position: 0 0;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes myfirst {
+    0%   {background-position: 0px 10px;}
+    25%  {background-position: 0px 20px; }
+    50%  {background-position: 0px 35px; }
+    100%  {background-position: 0px 50px;}
+}
+
+@keyframes myfirst {
+    0%   {background-position: 0px 10px;}
+    25%  {background-position: 0px 20px; }
+    50%  {background-position: 0px 35px; }
+    100%  {background-position: 0px 50px;}
+}
