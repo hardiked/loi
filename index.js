@@ -170,3 +170,6 @@ for(i=0;i<final.length;i+=1){
 var answer=set.extract();
 console.log(answer);
 console.log(answer.length);
+var a=[1,12,2,3,4];
+a.sort();
+console.log(a);
